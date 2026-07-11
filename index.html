@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Álbumes – Galería Inteligente</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Mis Álbumes</div>
+  <div class="header-actions">
+    <button class="btn" onclick="document.getElementById('fileInput').click()">Subir fotos y vídeos</button>
+    <button class="btn-secondary" onclick="crearAlbum()">Crear álbum</button>
+  </div>
+</header>
+
+<section class="upload-section">
+  <input type="file" id="fileInput" multiple accept="image/*,video/*" onchange="handleFiles(this.files)">
+  <div class="dropzone" id="dropzone">
+    <p>Arrastra aquí tus fotos y vídeos<br><span>(desde tu escritorio o disco externo)</span></p>
+  </div>
+</section>
+
+<section class="albums-section">
+  <div class="albums-header">
+    <h2>Álbumes</h2>
+    <select id="albumSelect" onchange="seleccionarAlbum(this.value)">
+      <option value="">Selecciona un álbum</option>
+    </select>
+  </div>
+
+  <div class="album-info" id="albumInfo"></div>
+
+  <div class="gallery" id="gallery"></div>
+
+  <div class="controls">
+    <button class="btn" onclick="toggleSlideshow()">Reproducir / Pausar pase</button>
+    <button class="btn" onclick="toggleBW()">Blanco y negro / Color</button>
+    <button class="btn" onclick="toggleMusic()">Música de fondo</button>
+    <button class="btn-secondary" onclick="descargarAlbum()">Descargar álbum</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+</section>
+
+<section class="albums-list-section">
+  <h3>Organización por fechas y viajes</h3>
+  <div id="albumsList"></div>
+</section>
+
+<footer class="footer">
+  <p>Mis Álbumes © 2026 · Tus recuerdos, con diseño.</p>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
