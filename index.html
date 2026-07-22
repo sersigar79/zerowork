@@ -1,60 +1,113 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis Álbumes – Galería Inteligente</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Early Retirement Calculator — FIRE for any country</title>
+<meta name="description" content="Calculate when you can retire early and how much you need, wherever you live. Free, simple, and available in English and Spanish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
+<div class="wrap" style="position:relative;">
+  <div class="lang-switch"><button class="lang-btn" onclick="setLang(S.lang==='en'?'es':'en')" id="t-langSwitch">Español</button></div>
 
-<header class="header">
-  <div class="logo">Mis Álbumes</div>
-  <div class="header-actions">
-    <button class="btn" onclick="document.getElementById('fileInput').click()">Subir fotos y vídeos</button>
-    <button class="btn-secondary" onclick="crearAlbum()">Crear álbum</button>
-  </div>
-</header>
+  <header class="hero">
+    <div>
+      <p class="eyebrow" id="t-eyebrow"></p>
+      <h1><span id="t-title1"></span> <em id="t-titleEm"></em> <span id="t-title2"></span></h1>
+      <p class="sub" id="t-sub"></p>
+      <p class="legal-tiny" id="t-legal"></p>
+      <p class="legal-tiny"><button class="link-btn" onclick="toggleLegal()" id="t-legalLinkLabel"></button></p>
+    </div>
+    <div class="hero-card">
+      <p class="hc-label">YOUR PROGRESS</p>
+      <p class="hero-stat">68%</p>
+      <p class="hero-stat-label">toward financial independence</p>
+      <div class="hero-bars">
+        <div style="height:28%"></div>
+        <div style="height:38%"></div>
+        <div style="height:34%"></div>
+        <div style="height:55%"></div>
+        <div style="height:70%"></div>
+        <div style="height:100%"></div>
+      </div>
+      <div class="hero-chips">
+        <div class="hero-chip"><i></i>Age 50</div>
+        <div class="hero-chip"><i></i>7% return</div>
+        <div class="hero-chip"><i></i>25x rule</div>
+      </div>
+    </div>
+  </header>
 
-<section class="upload-section">
-  <input type="file" id="fileInput" multiple accept="image/*,video/*" onchange="handleFiles(this.files)">
-  <div class="dropzone" id="dropzone">
-    <p>Arrastra aquí tus fotos y vídeos<br><span>(desde tu escritorio o disco externo)</span></p>
-  </div>
-</section>
+  <nav class="tabs" id="tabs"></nav>
+  <div id="content"></div>
 
-<section class="albums-section">
-  <div class="albums-header">
-    <h2>Álbumes</h2>
-    <select id="albumSelect" onchange="seleccionarAlbum(this.value)">
-      <option value="">Selecciona un álbum</option>
-    </select>
-  </div>
+  <section class="card" style="margin-top:24px;">
+    <h2 id="t-linksTitle"></h2>
+    <p class="hint" id="t-linksSub" style="margin-bottom:16px;"></p>
+    <div class="links-grid">
+      <a class="link-card" href="https://www.bogleheads.org/wiki/Main_Page" target="_blank" rel="noopener">
+        <span class="lc-tag">Wiki</span>
+        <span class="lc-title">Bogleheads Wiki</span>
+        <span class="lc-desc">Community-driven, no-nonsense investing knowledge base.</span>
+      </a>
+      <a class="link-card" href="https://en.wikipedia.org/wiki/Trinity_study" target="_blank" rel="noopener">
+        <span class="lc-tag">Research</span>
+        <span class="lc-title">The Trinity Study</span>
+        <span class="lc-desc">The original research behind the 4% withdrawal rule.</span>
+      </a>
+      <a class="link-card" href="https://www.investopedia.com" target="_blank" rel="noopener">
+        <span class="lc-tag">Education</span>
+        <span class="lc-title">Investopedia</span>
+        <span class="lc-desc">Clear explanations of financial and investing terms.</span>
+      </a>
+      <a class="link-card" href="https://www.mrmoneymustache.com" target="_blank" rel="noopener">
+        <span class="lc-tag">FIRE community</span>
+        <span class="lc-title">Mr. Money Mustache</span>
+        <span class="lc-desc">One of the blogs that popularized the FIRE movement.</span>
+      </a>
+      <a class="link-card" href="https://investor.vanguard.com/investor-resources-education" target="_blank" rel="noopener">
+        <span class="lc-tag">Education</span>
+        <span class="lc-title">Vanguard Investor Education</span>
+        <span class="lc-desc">Fundamentals of investing from a major index fund provider.</span>
+      </a>
+      <a class="link-card" href="https://www.nerdwallet.com/article/investing/retirement-calculator" target="_blank" rel="noopener">
+        <span class="lc-tag">Tools</span>
+        <span class="lc-title">NerdWallet Retirement Tools</span>
+        <span class="lc-desc">More general retirement and budgeting calculators.</span>
+      </a>
+    </div>
+  </section>
 
-  <div class="album-info" id="albumInfo"></div>
+  <section class="card">
+    <h2 id="t-faqTitle"></h2>
+    <p class="hint" id="t-faqSub" style="margin-bottom:16px;"></p>
+    <details style="margin-bottom:10px;"><summary style="cursor:pointer;font-weight:500;font-size:13.5px;" id="t-faqQ1"></summary>
+      <p class="hint" id="t-faqA1" style="margin-top:8px;"></p>
+    </details>
+    <details style="margin-bottom:10px;"><summary style="cursor:pointer;font-weight:500;font-size:13.5px;" id="t-faqQ2"></summary>
+      <p class="hint" id="t-faqA2" style="margin-top:8px;"></p>
+    </details>
+    <details style="margin-bottom:10px;"><summary style="cursor:pointer;font-weight:500;font-size:13.5px;" id="t-faqQ3"></summary>
+      <p class="hint" id="t-faqA3" style="margin-top:8px;"></p>
+    </details>
+    <details><summary style="cursor:pointer;font-weight:500;font-size:13.5px;" id="t-faqQ4"></summary>
+      <p class="hint" id="t-faqA4" style="margin-top:8px;"></p>
+    </details>
+  </section>
 
-  <div class="gallery" id="gallery"></div>
+  <section class="disclaimer" id="disclaimer-section">
+    <b id="t-disclaimerTitle"></b><br><span id="t-disclaimerBody"></span>
+  </section>
 
-  <div class="controls">
-    <button class="btn" onclick="toggleSlideshow()">Reproducir / Pausar pase</button>
-    <button class="btn" onclick="toggleBW()">Blanco y negro / Color</button>
-    <button class="btn" onclick="toggleMusic()">Música de fondo</button>
-    <button class="btn-secondary" onclick="descargarAlbum()">Descargar álbum</button>
-  </div>
-
-  <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-</section>
-
-<section class="albums-list-section">
-  <h3>Organización por fechas y viajes</h3>
-  <div id="albumsList"></div>
-</section>
-
-<footer class="footer">
-  <p>Mis Álbumes © 2026 · Tus recuerdos, con diseño.</p>
-</footer>
+  <footer>
+    <span id="t-footerNote"></span>
+  </footer>
+</div>
 
 <script src="main.js"></script>
 </body>
